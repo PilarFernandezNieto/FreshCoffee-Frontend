@@ -9,6 +9,7 @@ const QuioscoProvider = ({ children }) => {
     const [categoriaActual, setCategoriaActual] = useState(categorias[0])
     const [modal, setModal] = useState(false)
     const [producto, setProducto] = useState({})
+    const [pedido, setPedido] = useState([])
 
     const handleClickCategoria = id => {
         const categoria = categorias.filter(categoria => categoria.id === id)[0]
@@ -22,6 +23,23 @@ const QuioscoProvider = ({ children }) => {
         setProducto(producto)
     }
 
+    const handleAgregarPedido = ({categoria_id, imagen, ...producto}) => {
+      // ...pedido -> crea una copia del array original ya que no se puede modificar, 
+      // y añade un elemento producto a ese pedido
+    
+      if(pedido.some( pedidoState => pedidoState.id === producto.id)){
+        const pedidoActualizado = pedido.map(pedidoState => pedidoState.id === producto.id ? producto : pedidoState )
+        setPedido(pedidoActualizado)
+      } else {
+        setPedido([...pedido, producto])
+      }
+      
+
+      
+    }
+
+
+
   
   return (
     <QuioscoContext.Provider
@@ -32,7 +50,9 @@ const QuioscoProvider = ({ children }) => {
        modal,
        handleClickModal,
        producto,
-       handleSetProducto
+       handleSetProducto,
+       pedido,
+       handleAgregarPedido
       }}
     >
       {children}
