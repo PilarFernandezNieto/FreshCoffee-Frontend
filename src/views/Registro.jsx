@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import { createRef, useState } from "react"
 import { Link } from "react-router-dom"
 import clienteAxios from "../config/axios";
@@ -20,8 +19,8 @@ export default function Registro() {
       password_confirmation: passwordConfirmationRef.current.value,
     }
     try {
-      const respuesta = await clienteAxios.post('/api/registro', datos);
-      console.log(respuesta);
+      const {data} = await clienteAxios.post('/api/registro', datos);
+      console.log(data.token);
       
     } catch (error) {
       setErrores(Object.values(error.response.data.errors));
